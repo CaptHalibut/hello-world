@@ -19,8 +19,10 @@ class Player(pg.sprite.Sprite):
 
         self.level = None
     
-    #Update player position
+    #Update player position on the screen
     def update(self):
+        self.gravity()
+
         #Move Character Horizontally
         self.rect.x += self.dx 
 
@@ -30,13 +32,21 @@ class Player(pg.sprite.Sprite):
         #Move Character Vertically
         self.rect.y += self.dy
 
-        #Check for Gravity
-        #TODO - Add gravity
+    #Player Gravity
+    def gravity(self):
+        if self.dy == 0:
+            self.dy = 1
+        else:
+            self.dy += 0.35
+
+        #Check if player is on the ground
+        if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.dy >= 0:
+            self.dy = 0
+            self.rect.y = SCREEN_HEIGHT - self.rect.height
 
     #Allows player to jump
     def jump(self):
-        self.rect.y += 3
-        self.rect.y -= 3
+       
 
         if self.rect.bottom >= SCREEN_HEIGHT:
             self.dy = -40
