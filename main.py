@@ -1,19 +1,14 @@
-import pygame as pg
+import pygame as pg #Pygame library
+import constants #Constants file
 
-
-WIN_LENGTH = 800
-WIN_HEIGHT = 600
-
+#Initialize pygame
 pg.init()
-
-screen = pg.display.set_mode((WIN_LENGTH, WIN_HEIGHT))
-screen.fill((0, 0, 0))
-
+screen = pg.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+screen.fill((constants.BLUE_SKY))
 pg.display.set_caption("Platformer")
 
+#Game loop
 while True:
-
-
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
