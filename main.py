@@ -1,6 +1,8 @@
 import pygame as pg #Pygame library
 from constants import * #Constants file
 from player import Player #Player class
+from level import Level #Level class
+
 
 def main():
     #Initialize pygame
@@ -25,7 +27,7 @@ def main():
     current_sprites.add(player1)
 
     #Initialize Levels
-    #TODO - Add level class
+    #TODO - Import Levels and create levels
 
     #Game loop
     while not endgame:
