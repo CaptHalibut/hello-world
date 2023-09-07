@@ -47,7 +47,6 @@ class Player(pg.sprite.Sprite):
     #Allows player to jump
     def jump(self):
        
-
         if self.rect.bottom >= SCREEN_HEIGHT:
             self.dy = -40
     
