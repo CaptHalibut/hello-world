@@ -48,8 +48,8 @@ class Player(pg.sprite.Sprite):
     def jump(self):
        
         if self.rect.bottom >= SCREEN_HEIGHT:
-            self.dy = -40
-    
+            self.dy = -8
+
     #Player Movement
     def move_left(self):
         self.dx = -6
