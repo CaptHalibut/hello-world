@@ -18,6 +18,9 @@ class Player(pg.sprite.Sprite):
         self.dy = 0
 
         self.level = None
+
+        #Player Achievements
+        self.double_jump_achieved = False
     
     #Update player position on the screen
     def update(self):
@@ -46,10 +49,19 @@ class Player(pg.sprite.Sprite):
 
     #Allows player to jump
     def jump(self):
-       
-        if self.rect.bottom >= SCREEN_HEIGHT:
-            self.dy = -40
+        if self.double_jump_achieved == False:
+
+            if self.rect.bottom >= SCREEN_HEIGHT:
+                
+                self.dy = -8
+        
+        else
+            
+            if self.rect.bottom >= SCREEN_HEIGHT:
+             self.dy = -8
+
     
+        
     #Player Movement
     def move_left(self):
         self.dx = -6
