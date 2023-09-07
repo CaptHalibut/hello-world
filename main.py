@@ -11,6 +11,9 @@ def main():
     screen.fill((BLUE_SKY))
     pg.display.set_caption("Platformer")
 
+    def clear_trail():
+        screen.fill((BLUE_SKY))
+
     #Sprite Group - Stores the sprites for the game
     current_sprites = pg.sprite.Group()
 
@@ -55,6 +58,7 @@ def main():
                     player1.stop()
 
         #Update and Draw Sprites
+        clear_trail()
         current_sprites.update()
         current_sprites.draw(screen)
 
