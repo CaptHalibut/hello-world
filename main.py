@@ -44,17 +44,18 @@ def main():
             
             #Player Movement Controls
             if event.type == pg.KEYDOWN:
-                if event.key == pg.K_LEFT:
+                if event.key == pg.K_a:
                     player1.move_left()
-                if event.key == pg.K_RIGHT:
+                if event.key == pg.K_d:
                     player1.move_right()
-                if event.key == pg.K_UP:
+                if event.key == pg.K_SPACE:
                     player1.jump()
 
+
             if event.type == pg.KEYUP:
-                if event.key == pg.K_LEFT and player1.dx < 0:
+                if event.key == pg.K_a and player1.dx < 0:
                     player1.stop()
-                if event.key == pg.K_RIGHT and player1.dx > 0:
+                if event.key == pg.K_d and player1.dx > 0:
                     player1.stop()
 
         #Update and Draw Sprites
