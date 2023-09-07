@@ -2,6 +2,12 @@ import pygame as pg #import pygame library
 from constants import * #import constants file
 
 class Player(pg.sprite.Sprite):
+    
+    #Player attributes
+    jump_count = 0
+    has_doublejump = False
+    #has_highjump = False
+    #has_sprint = False
 
     def __init__(self): 
         super().__init__()
@@ -43,12 +49,18 @@ class Player(pg.sprite.Sprite):
         if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.dy >= 0:
             self.dy = 0
             self.rect.y = SCREEN_HEIGHT - self.rect.height
+            self.jump_count = 0
 
     #Allows player to jump
     def jump(self):
-       
-        if self.rect.bottom >= SCREEN_HEIGHT:
+        if self.has_doublejump == True:
+            jump_max = 2
+        else:
+            jump_max = 1
+        #if self.rect.bottom >= SCREEN_HEIGHT:
+        if self.jump_count < jump_max:
             self.dy = -8
+            self.jump_count += 1
 
     #Player Movement
     def move_left(self):

@@ -51,6 +51,10 @@ def main():
                 if event.key == pg.K_SPACE:
                     player1.jump()
 
+                #Temporary - flip has_doublejump attribute
+                if event.key == pg.K_RSHIFT:
+                    player1.has_doublejump = not player1.has_doublejump
+
 
             if event.type == pg.KEYUP:
                 if event.key == pg.K_a and player1.dx < 0:
