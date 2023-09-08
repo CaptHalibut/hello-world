@@ -55,7 +55,7 @@ def main():
                 if event.key == pg.K_a:
                     player1.move_left()
                 if event.key == pg.K_d:
-                    player1.move_right()
+                    player1.move_right() 
                 if event.key == pg.K_SPACE:
                     player1.jump()
 
