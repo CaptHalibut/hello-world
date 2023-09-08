@@ -1,8 +1,8 @@
 import pygame as pg #Pygame library
 from constants import * #Constants file
-from player import Player #Player class
-from level import Level #Level class
-from crates import Crate #Crate class
+from player import * #Player class
+from level import * #Level class
+from crates import * #Crate class
 
 def main():
     #Initialize pygame
@@ -17,9 +17,10 @@ def main():
     #Sprite Group - Stores the sprites for the game
     current_sprites = pg.sprite.Group()
     crate_sprites = pg.sprite.Group()
-    crate1 = Crate("box")
 
+    crate1 = Crate("box")
     crate_sprites.add(crate1)
+
     #Game Loop Flag
     endgame = False
 
@@ -33,7 +34,9 @@ def main():
     current_sprites.add(player1)
 
     #Initialize Levels
-    #TODO - Import Levels and create levels
+    level_list = []
+    level_list.append(Level_01(player1))
+    current_level = level_list[0]
 
     #Game loop
     while not endgame:
@@ -83,8 +86,21 @@ def main():
         #Update and Draw Sprites
         clear_trail()
         current_sprites.update()
-        current_sprites.draw(screen)
+      
+        #Scroll Handling
+        current_level.update()
+        if player1.rect.right >= SCREEN_WIDTH:
+            diff = player1.rect.right - SCREEN_WIDTH
+            player1.rect.right = SCREEN_WIDTH
+            current_level.shift_world(-diff)
 
+        if player1.rect.left <= 0:
+            diff = 0 - player1.rect.left
+            player1.rect.left = 0
+            current_level.shift_world(diff)
+
+        current_level.draw(screen)
+        current_sprites.draw(screen)
         crate_sprites.draw(screen)
 
         #Update Display
