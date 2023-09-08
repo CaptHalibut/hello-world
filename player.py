@@ -64,15 +64,8 @@ class Player(pg.sprite.Sprite):
         if self.jump_count < jump_max:
             self.dy = -8
             self.jump_count += 1
-
-        if self.rect.bottom >= SCREEN_HEIGHT:
-            self.dy = -8
-        if self.double_jump_achieved == False:
-            if self.rect.bottom >= SCREEN_HEIGHT:
-                self.dy = -8
         
-        else
- 
+        else: 
             if self.rect.bottom >= SCREEN_HEIGHT:
              self.dy = -8
 
