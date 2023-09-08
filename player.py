@@ -2,6 +2,7 @@ import pygame as pg #import pygame library
 from constants import * #import constants file
 
 class Player(pg.sprite.Sprite):
+    
 
     def __init__(self): 
         super().__init__()
@@ -19,8 +20,11 @@ class Player(pg.sprite.Sprite):
 
         self.level = None
 
-        #Player Achievements
-        self.double_jump_achieved = False
+        self.jump_count = 0
+        self.has_doublejump = False
+        #has_highjump = False
+        self.has_sprint = False
+        self.lshift = False
     
     #Update player position on the screen
     def update(self):
@@ -46,10 +50,21 @@ class Player(pg.sprite.Sprite):
         if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.dy >= 0:
             self.dy = 0
             self.rect.y = SCREEN_HEIGHT - self.rect.height
+            #Reset jump_count on ground
+            self.jump_count = 0
 
     #Allows player to jump
     def jump(self):
-       
+
+        if self.has_doublejump == True:
+            jump_max = 2
+        else:
+            jump_max = 1
+        #if self.rect.bottom >= SCREEN_HEIGHT:
+        if self.jump_count < jump_max:
+            self.dy = -8
+            self.jump_count += 1
+
         if self.rect.bottom >= SCREEN_HEIGHT:
             self.dy = -8
         if self.double_jump_achieved == False:
@@ -57,16 +72,22 @@ class Player(pg.sprite.Sprite):
                 self.dy = -8
         
         else
-            
+ 
             if self.rect.bottom >= SCREEN_HEIGHT:
              self.dy = -8
-        
+
     #Player Movement
     def move_left(self):
-        self.dx = -6
+        if self.lshift == True:
+            self.dx = -12
+        else:
+            self.dx = -6
     
     def move_right(self):
-        self.dx = 6
+        if self.lshift == True:
+            self.dx = 12
+        else:
+            self.dx = 6
     
     def stop(self):
         self.dx = 0
