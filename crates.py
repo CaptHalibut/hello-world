@@ -9,6 +9,8 @@ class Crate(pg.sprite.Sprite):
 
         #Attributes
         if type == "box":
+            self.color = BROWN
             self.image = pg.Surface([GENERIC_BOX_WIDTH, GENERIC_BOX_HEIGH])
+            
         
         self.rect = self.image.get_rect()

@@ -15,6 +15,9 @@ class Level(object):
         screen.fill(BLUE_SKY)
         
 #TODO - Create Level 1
+
+
+
 #TODO - Create Level 2
 #TODO - Create Level 3
 #TODO - Create Level 4

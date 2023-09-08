@@ -2,7 +2,7 @@ import pygame as pg #Pygame library
 from constants import * #Constants file
 from player import Player #Player class
 from level import Level #Level class
-
+from crates import Crate #Crate class
 
 def main():
     #Initialize pygame
@@ -16,7 +16,10 @@ def main():
 
     #Sprite Group - Stores the sprites for the game
     current_sprites = pg.sprite.Group()
+    crate_sprites = pg.sprite.Group()
+    crate1 = Crate("box")
 
+    crate_sprites.add(crate1)
     #Game Loop Flag
     endgame = False
 
@@ -81,6 +84,8 @@ def main():
         clear_trail()
         current_sprites.update()
         current_sprites.draw(screen)
+
+        crate_sprites.draw(screen)
 
         #Update Display
         pg.display.update()
