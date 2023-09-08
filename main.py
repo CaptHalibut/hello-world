@@ -44,6 +44,14 @@ def main():
             
             #Player Movement Controls
             if event.type == pg.KEYDOWN:
+                #Toggle Running
+                if event.key == pg.K_LSHIFT:
+                    player1.lshift = True
+                    if player1.dx < 0:
+                        player1.move_left()
+                    if player1.dx > 0:
+                        player1.move_right()
+                #Normal Movement
                 if event.key == pg.K_a:
                     player1.move_left()
                 if event.key == pg.K_d:
@@ -53,10 +61,17 @@ def main():
 
                 #Temporary - flip has_doublejump attribute
                 if event.key == pg.K_RSHIFT:
+                    print("Double Jump Toggled")
                     player1.has_doublejump = not player1.has_doublejump
 
 
             if event.type == pg.KEYUP:
+                if event.key == pg.K_LSHIFT:
+                    player1.lshift = False
+                    if player1.dx < 0:
+                        player1.move_left()
+                    if player1.dx > 0:
+                        player1.move_right()
                 if event.key == pg.K_a and player1.dx < 0:
                     player1.stop()
                 if event.key == pg.K_d and player1.dx > 0:

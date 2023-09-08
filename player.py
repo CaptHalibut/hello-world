@@ -3,11 +3,6 @@ from constants import * #import constants file
 
 class Player(pg.sprite.Sprite):
     
-    #Player attributes
-    jump_count = 0
-    has_doublejump = False
-    #has_highjump = False
-    #has_sprint = False
 
     def __init__(self): 
         super().__init__()
@@ -24,6 +19,12 @@ class Player(pg.sprite.Sprite):
         self.dy = 0
 
         self.level = None
+
+        self.jump_count = 0
+        self.has_doublejump = False
+        #has_highjump = False
+        self.has_sprint = False
+        self.lshift = False
     
     #Update player position on the screen
     def update(self):
@@ -65,10 +66,16 @@ class Player(pg.sprite.Sprite):
 
     #Player Movement
     def move_left(self):
-        self.dx = -6
+        if self.lshift == True:
+            self.dx = -12
+        else:
+            self.dx = -6
     
     def move_right(self):
-        self.dx = 6
+        if self.lshift == True:
+            self.dx = 12
+        else:
+            self.dx = 6
     
     def stop(self):
         self.dx = 0
