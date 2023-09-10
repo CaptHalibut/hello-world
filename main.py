@@ -29,7 +29,7 @@ def main():
 
     #Initialize player
     player1 = Player()
-    player1.rect.x = SCREEN_WIDTH / 2 
+    player1.rect.x = 0 
     player1.rect.y = SCREEN_HEIGHT - player1.rect.height
     current_sprites.add(player1)
 
@@ -37,6 +37,7 @@ def main():
     level_list = []
     level_list.append(Level_01(player1))
     current_level = level_list[0]
+    player1.level = current_level
 
     #Game loop
     while not endgame:
@@ -89,14 +90,14 @@ def main():
       
         #Scroll Handling
         current_level.update()
-        if player1.rect.right >= SCREEN_WIDTH:
-            diff = player1.rect.right - SCREEN_WIDTH
-            player1.rect.right = SCREEN_WIDTH
+        if player1.rect.right >= 500:
+            diff = player1.rect.right - 500
+            player1.rect.right = 500
             current_level.shift_world(-diff)
 
-        if player1.rect.left <= 0:
-            diff = 0 - player1.rect.left
-            player1.rect.left = 0
+        if player1.rect.left <= 120:
+            diff = 120 - player1.rect.left
+            player1.rect.left = 120
             current_level.shift_world(diff)
 
         current_level.draw(screen)

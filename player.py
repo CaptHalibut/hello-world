@@ -33,12 +33,37 @@ class Player(pg.sprite.Sprite):
         #Move Character Horizontally
         self.rect.x += self.dx 
 
-        #Check for collisions
-        #TODO - Add collision detection
+        #Check for collision after moving 
+        collision_list = pg.sprite.spritecollide(self, self.level.platform_list, False)
+        for block in collision_list:
+            if self.dx > 0:
+                self.rect.right = block.rect.left
+            elif self.dx < 0:
+                self.rect.left = block.rect.right
+
+            self.dy = 0
 
         #Move Character Vertically
         self.rect.y += self.dy
 
+        #Check for collision after moving
+        collision_list = pg.sprite.spritecollide(self, self.level.platform_list, False)
+        for block in collision_list:
+            if self.dy > 0:
+                self.rect.bottom = block.rect.top
+            elif self.dy < 0:
+                self.rect.top = block.rect.bottom
+
+    #See if the player is on the ground   
+    def on_ground(self):
+        self.rect.y += 2
+        collision_list = pg.sprite.spritecollide(self, self.level.platform_list, False)
+        self.rect.y -= 2        
+        if len(collision_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
+             return True
+        else:
+            return False
+    
     #Player Gravity
     def gravity(self):
         if self.dy == 0:
@@ -47,29 +72,31 @@ class Player(pg.sprite.Sprite):
             self.dy += 0.35
 
         #Check if player is on the ground
-        if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.dy >= 0:
+
+        if self.on_ground() and self.dy >= 0:
             self.dy = 0
-            self.rect.y = SCREEN_HEIGHT - self.rect.height
+            
+            #self.rect.y = SCREEN_HEIGHT - self.rect.height
             #Reset jump_count on ground
             self.jump_count = 0
 
     #Allows player to jump
     def jump(self):
-
         if self.has_doublejump == True:
-            jump_max = 2
-        else:
             jump_max = 1
-        #if self.rect.bottom >= SCREEN_HEIGHT:
-        if self.jump_count < jump_max:
-            self.dy = -8
+        else:
+            jump_max = 0
+
+        if self.on_ground() or self.jump_count <= jump_max:
+            self.dy = -12
             self.jump_count += 1
         
-        else: 
-            if self.rect.bottom >= SCREEN_HEIGHT:
-             self.dy = -8
+         #elif self.rect.bottom >- SCREEN_HEIGHT:
+         #    self.dy = -12
+              
 
     #Player Movement
+    #Add time limit to sprint
     def move_left(self):
         if self.lshift == True:
             self.dx = -12
