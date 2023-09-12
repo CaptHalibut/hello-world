@@ -46,10 +46,9 @@ class Player(pg.sprite.Sprite):
                 self.rect.left = block.rect.right
                 self.on_wallL = True
                 self.on_wallR = False
-            else:
-                self.on_wallL = False
-                self.on_wallR = False
-
+        if len(collision_list) == 0:
+            self.on_wallL = False
+            self.on_wallR = False
             #self.dy = 0
 
         #Move Character Vertically
@@ -99,7 +98,7 @@ class Player(pg.sprite.Sprite):
             jump_max = 0
 
         #Wall jump test
-        if self.has_walljump == True and not self.on_ground():
+        if self.has_walljump == True and not self.on_ground() and (self.on_wallL or self.on_wallR):
             if self.on_wallL == True:
                 self.dy = -10
                 self.dx = 6
@@ -110,11 +109,9 @@ class Player(pg.sprite.Sprite):
                 self.dx = -6
                 self.on_wallR = False
 
-        elif self.on_ground() or self.jump_count <= jump_max:
-            print(self.jump_count)
+        elif self.on_ground() or self.jump_count < jump_max:
             self.dy = -12
             self.jump_count += 1
-            print(self.jump_count)
         
          #elif self.rect.bottom >- SCREEN_HEIGHT:
          #    self.dy = -12
