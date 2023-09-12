@@ -30,7 +30,7 @@ def main():
     #Initialize player
     player1 = Player()
     player1.rect.x = 0 
-    player1.rect.y = SCREEN_HEIGHT - player1.rect.height
+    player1.rect.y = SCREEN_HEIGHT/2 - player1.rect.height
     current_sprites.add(player1)
 
     #Initialize Levels
