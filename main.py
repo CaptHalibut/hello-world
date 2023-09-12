@@ -79,10 +79,13 @@ def main():
                         player1.move_left()
                     if player1.dx > 0:
                         player1.move_right()
-                if event.key == pg.K_a and player1.dx < 0:
-                    player1.stop()
-                if event.key == pg.K_d and player1.dx > 0:
-                    player1.stop()
+                #if event.key == pg.K_a and player1.dx < 0:
+                #    player1.stop()
+                #if event.key == pg.K_d and player1.dx > 0:
+                #    player1.stop()
+
+        if (not (pg.key.get_pressed()[pg.K_a]) and not (pg.key.get_pressed()[pg.K_d])):
+            player1.stop()
 
         #Update and Draw Sprites
         clear_trail()

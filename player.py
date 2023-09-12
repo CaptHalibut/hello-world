@@ -21,8 +21,10 @@ class Player(pg.sprite.Sprite):
         self.level = None
 
         self.jump_count = 0
+        self.on_wallR = False
+        self.on_wallL = False
         self.has_doublejump = False
-        #has_highjump = False
+        self.has_walljump = True
         self.has_sprint = False
         self.lshift = False
     
@@ -38,10 +40,17 @@ class Player(pg.sprite.Sprite):
         for block in collision_list:
             if self.dx > 0:
                 self.rect.right = block.rect.left
+                self.on_wallR = True
+                self.on_wallL = False
             elif self.dx < 0:
                 self.rect.left = block.rect.right
+                self.on_wallL = True
+                self.on_wallR = False
+            else:
+                self.on_wallL = False
+                self.on_wallR = False
 
-            self.dy = 0
+            #self.dy = 0
 
         #Move Character Vertically
         self.rect.y += self.dy
@@ -51,6 +60,7 @@ class Player(pg.sprite.Sprite):
         for block in collision_list:
             if self.dy > 0:
                 self.rect.bottom = block.rect.top
+                self.jump_count = 0 #Reset jump on platform
             elif self.dy < 0:
                 self.rect.top = block.rect.bottom
 
@@ -67,29 +77,44 @@ class Player(pg.sprite.Sprite):
     #Player Gravity
     def gravity(self):
         if self.dy == 0:
-            self.dy = 1
-        else:
+            self.dy = 0.7
+        elif self.dy < 12:
             self.dy += 0.35
 
         #Check if player is on the ground
 
-        if self.on_ground() and self.dy >= 0:
+        if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.dy >= 0:
             self.dy = 0
             
             #self.rect.y = SCREEN_HEIGHT - self.rect.height
             #Reset jump_count on ground
-            self.jump_count = 0
-
+            
     #Allows player to jump
     def jump(self):
+        if self.rect.bottom >= SCREEN_HEIGHT:
+            self.jump_count = 0
         if self.has_doublejump == True:
             jump_max = 1
         else:
             jump_max = 0
 
-        if self.on_ground() or self.jump_count <= jump_max:
+        #Wall jump test
+        if self.has_walljump == True and not self.on_ground():
+            if self.on_wallL == True:
+                self.dy = -10
+                self.dx = 6
+                self.on_wallL = False
+
+            elif self.on_wallR == True:
+                self.dy = -10
+                self.dx = -6
+                self.on_wallR = False
+
+        elif self.on_ground() or self.jump_count <= jump_max:
+            print(self.jump_count)
             self.dy = -12
             self.jump_count += 1
+            print(self.jump_count)
         
          #elif self.rect.bottom >- SCREEN_HEIGHT:
          #    self.dy = -12
@@ -98,17 +123,26 @@ class Player(pg.sprite.Sprite):
     #Player Movement
     #Add time limit to sprint
     def move_left(self):
-        if self.lshift == True:
+        if self.lshift == True and self.has_sprint:
             self.dx = -12
         else:
             self.dx = -6
     
     def move_right(self):
-        if self.lshift == True:
+        if self.lshift == True and self.has_sprint:
             self.dx = 12
         else:
             self.dx = 6
     
     def stop(self):
-        self.dx = 0
+        if not self.on_ground():
+            if self.dx < 0:
+                self.dx += 0.1
+            elif self.dx > 0:
+                self.dx -= 0.1
+        elif self.dx < 0:
+            self.dx += 0.5
+        elif self.dx > 0:
+            self.dx -= 0.5
+
         
