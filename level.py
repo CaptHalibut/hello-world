@@ -32,22 +32,29 @@ class Level_01 (Level):
 
         self.level_boundary = -1000
 
-        level_platforms = [((SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2), SMALL_PLATFORM_SIZE, BROWN), ((500, 200), LARGE_PLATFORM_SIZE, GREEN_GRASS), ((1000, 600), THICK_PLATFORM_SIZE, BROWN)]
-        level_boxes = [((100, 100), GENERIC_BOX_SIZE, BROWN)]
-
-        for item in level_platforms: 
-            platform = Platform(item[0], item[2])
-            platform.rect.x = item[0][0]
-            platform.rect.y = item[0][1]
-            self.platform_list.add(platform)
+        # level_platforms = [((SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2), SMALL_PLATFORM_SIZE, BROWN), ((500, 200), LARGE_PLATFORM_SIZE, GREEN_GRASS), ((1000, 600), THICK_PLATFORM_SIZE, BROWN)]
         
-       
+        level__TEST_platforms = [((960, 20), (0, 580), GREEN_GRASS), ((220, 20), (180, 500), BROWN) ]
+
+        # for item in level_platforms: 
+        #     platform = Platform(item[0], item[2])
+        #     platform.rect.x = item[0][0]
+        #     platform.rect.y = item[0][1]
+        #     self.platform_list.add(platform)
+        
+        for item in level__TEST_platforms:
+            platform = Platform(item[0], item[2])
+            platform.rect.x = item[1][0]
+            platform.rect.y = item[1][1]
+            self.platform_list.add(platform)
         
         #Add Enemy List
         #Add Background
         #Add crate list
 
 #TODO - Create Level 2
+ 
+
 #TODO - Create Level 3
 #TODO - Create Level 4
 #TODO - Create Level 5
