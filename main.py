@@ -69,7 +69,7 @@ def main():
                 #Temporary - flip has_doublejump attribute
                 if event.key == pg.K_RSHIFT:
                     print("Double Jump Toggled")
-                    player1.has_doublejump = not player1.has_doublejump
+                    player1.hasDoubleJump = not player1.hasDoubleJump
 
 
             if event.type == pg.KEYUP:
