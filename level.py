@@ -18,7 +18,7 @@ class Level(object):
         self.platform_list.draw(screen)
 
     def shift_world(self, shift_x):
-        if self.level_boundaryL > self.world_shift and self.world_shift < self.level_boundaryR:
+        if self.level_boundaryL < self.world_shift < self.level_boundaryR:
             self.world_shift += shift_x
             for platform in self.platform_list:
                 platform.rect.x += shift_x
@@ -32,7 +32,7 @@ class Level_01 (Level):
         Level.__init__(self, player)
 
         self.level_boundaryL = 0
-        self.level_bouundaryR = 800
+        self.level_bouundaryR = 1800
 
         # level_platforms = [((SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2), SMALL_PLATFORM_SIZE, BROWN), ((500, 200), LARGE_PLATFORM_SIZE, GREEN_GRASS), ((1000, 600), THICK_PLATFORM_SIZE, BROWN)]
         

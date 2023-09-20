@@ -98,16 +98,18 @@ def main():
         current_sprites.update()
       
         #Scroll Handling
-        current_level.update()
-        if player1.rect.right >= 500:
-            diff = player1.rect.right - 500
-            player1.rect.right = 500
-            current_level.shift_world(-diff)
+        # current_level.update()
+        # if player1.rect.right >= 500:
+        #     diff = player1.rect.right - 500
+        #     player1.rect.right = 500
+        #     current_level.shift_world(-diff)
 
-        if player1.rect.left <= 120:
-            diff = 120 - player1.rect.left
-            player1.rect.left = 120
-            current_level.shift_world(diff)
+        # if player1.rect.left <= 120:
+        #     diff = 120 - player1.rect.left
+        #     player1.rect.left = 120
+        #     current_level.shift_world(diff)
+
+        current_level.update() 
 
         current_level.draw(screen)
         current_sprites.draw(screen)
