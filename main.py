@@ -19,6 +19,8 @@ def main():
     crate_sprites = pg.sprite.Group()
 
     crate1 = Crate("box")
+    crate1.rect.x = 300
+    crate1.rect.y = SCREEN_HEIGHT/2
     crate_sprites.add(crate1)
 
     #Game Loop Flag
@@ -38,6 +40,7 @@ def main():
     level_list.append(Level_01(player1))
     current_level = level_list[0]
     player1.level = current_level
+    player1.crates = crate_sprites
 
     #Game loop
     while not endgame:
@@ -59,10 +62,10 @@ def main():
                     if player1.dx > 0:
                         player1.move_right()
                 #Normal Movement
-                if event.key == pg.K_a:
-                    player1.move_left()
-                if event.key == pg.K_d:
-                    player1.move_right() 
+                # if event.key == pg.K_a:
+                #     player1.move_left()
+                # if event.key == pg.K_d:
+                #     player1.move_right() 
                 if event.key == pg.K_SPACE:
                     player1.jump()
 
@@ -79,13 +82,16 @@ def main():
                         player1.move_left()
                     if player1.dx > 0:
                         player1.move_right()
-                #if event.key == pg.K_a and player1.dx < 0:
-                #    player1.stop()
-                #if event.key == pg.K_d and player1.dx > 0:
-                #    player1.stop()
-
-        if (not (pg.key.get_pressed()[pg.K_a]) and not (pg.key.get_pressed()[pg.K_d])):
+        if pg.key.get_pressed()[pg.K_a]:
+            player1.move_left()
+        if pg.key.get_pressed()[pg.K_d]:
+            player1.move_right() 
+        if player1.dx < 0 and not pg.key.get_pressed()[pg.K_a]:
             player1.stop()
+        if player1.dx > 0 and not pg.key.get_pressed()[pg.K_d]:
+            player1.stop()        
+        # if (not (pg.key.get_pressed()[pg.K_a]) and not (pg.key.get_pressed()[pg.K_d])):
+        #     player1.stop()
 
         #Update and Draw Sprites
         clear_trail()

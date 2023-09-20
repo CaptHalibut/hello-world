@@ -1,5 +1,6 @@
 import pygame as pg #import pygame library
 from constants import * #import constants file
+from crates import Crate
 
 class Player(pg.sprite.Sprite):
     
@@ -36,31 +37,38 @@ class Player(pg.sprite.Sprite):
     def update(self):
         self.deathState()
         self.gravity()
-
         #Move Character Horizontally
         self.rect.x += self.dx 
-
         #Check for collision after moving 
         collision_list = pg.sprite.spritecollide(self, self.level.platform_list, False)
-        for block in collision_list:
-            if self.dx > 0:
-                self.rect.right = block.rect.left
-                self.onWallR = True
-                self.onWallL = False
-            elif self.dx < 0:
-                self.rect.left = block.rect.right
-                self.onWallL = True
-                self.onWallR = False
-        if len(collision_list) == 0:
-            self.onWallL = False
-            self.onWallR = False
-            #self.dy = 0
+        self.checkXCollision(collision_list)
+        collision_list = pg.sprite.spritecollide(self, self.crates, False)
+        self.checkXCollision(collision_list)
 
         #Move Character Vertically
         self.rect.y += self.dy
-
-        #Check for collision after moving
+        #Check for vertical collision after moving
         collision_list = pg.sprite.spritecollide(self, self.level.platform_list, False)
+        self.checkYCollision(collision_list)
+        collision_list = pg.sprite.spritecollide(self, self.crates, False)
+        self.checkYCollision(collision_list)
+
+
+        #Check if we hit the screen height
+        if self.rect.y == SCREEN_HEIGHT - self.rect.height:
+            self.isAlive = False
+
+    def checkXCollision(self, collision_list):
+        for block in collision_list:
+            if self.dx > 0:
+                self.dx = 0
+                self.rect.right = block.rect.left
+            elif self.dx < 0:
+                self.dx = 0
+                self.rect.left = block.rect.right
+
+
+    def checkYCollision(self, collision_list):
         for block in collision_list:
             if self.dy > 0:
                 self.rect.bottom = block.rect.top
@@ -68,14 +76,17 @@ class Player(pg.sprite.Sprite):
             elif self.dy < 0:
                 self.rect.top = block.rect.bottom
                 self.dy = 0
-
+                if isinstance(block, Crate):
+                    block.image.fill(RED)
+                    print("Hit crate")
+    
     #See if the player is on the ground   
     def onGround(self):
         self.rect.y += 2
         collision_list = pg.sprite.spritecollide(self, self.level.platform_list, False)
         self.rect.y -= 2        
         for block in collision_list:
-            if self.rect.bottom == block.rect.top:
+            if self.rect.bottom >= block.rect.top:
                 return True
                 break
             else:
@@ -142,14 +153,18 @@ class Player(pg.sprite.Sprite):
             self.dx = 6
     
     def stop(self):
-        if not self.onGround():
+        if self.onGround():
+            if self.dx < 0:
+                self.dx = round(self.dx)
+                self.dx += 1
+            elif self.dx > 0:
+                self.dx = round(self.dx)
+                self.dx -= 1
+        elif not self.onGround():
             if self.dx < 0:
                 self.dx += 0.1
             elif self.dx > 0:
                 self.dx -= 0.1
-        elif self.dx < 0:
-            self.dx += 0.5
-        elif self.dx > 0:
-            self.dx -= 0.5
+
 
         
