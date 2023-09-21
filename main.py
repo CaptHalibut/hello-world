@@ -114,6 +114,7 @@ def main():
         crate_sprites.draw(screen)
 
         #Update Display
+        screen.blit(player1.text, player1.textRect)
         pg.display.update()
 
         #Clock Tick

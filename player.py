@@ -21,10 +21,13 @@ class Player(pg.sprite.Sprite):
 
         self.level = None
 
+        self.initplayerDisplay()
+
         #Player life
         self.isAlive = True
 
         #Movement Attributes
+        self.counter = 0
         self.jumpCount = 0
         self.onWallR = False
         self.onWallL = False
@@ -35,6 +38,7 @@ class Player(pg.sprite.Sprite):
     
     #Update player position on the screen
     def update(self):
+        self.updateDisplay()
         self.deathState()
         self.gravity()
         #Move Character Horizontally
@@ -76,9 +80,10 @@ class Player(pg.sprite.Sprite):
             elif self.dy < 0:
                 self.rect.top = block.rect.bottom
                 self.dy = 0
-                if isinstance(block, Crate):
+                if isinstance(block, Crate) and block.broken == False:
+                    block.broken = True
                     block.image.fill(RED)
-                    print("Hit crate")
+                    self.counter += 1
     
     #See if the player is on the ground   
     def onGround(self):
@@ -166,5 +171,12 @@ class Player(pg.sprite.Sprite):
             elif self.dx > 0:
                 self.dx -= 0.1
 
+    def initplayerDisplay(self):
+        self.font = pg.font.Font('freesansbold.ttf', 20)
+        self.text = self.font.render('', True, WHITE, BLUE_SKY)
+        self.textRect = self.text.get_rect()
+        self.textRect.x = 10
+        self.textRect.y = 10
 
-        
+    def updateDisplay(self):
+        self.text = self.font.render(f'Text Here \n Concussions {self.counter}', True, WHITE, BLUE_SKY)
