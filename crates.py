@@ -6,10 +6,10 @@ class Crate(pg.sprite.Sprite):
         super().__init__()
 
         self.type = type
-
+        self.broken = False
         #Attributes
         if type == "box":
-            
+
             self.image = pg.Surface(GENERIC_BOX_SIZE)
             self.image.fill(BROWN)
         
