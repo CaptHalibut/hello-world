@@ -61,6 +61,7 @@ class Player(pg.sprite.Sprite):
         #Check if we hit the screen height
         if self.rect.y == SCREEN_HEIGHT - self.rect.height:
             self.isAlive = False
+            
 
     def checkXCollision(self, collision_list):
         for block in collision_list:

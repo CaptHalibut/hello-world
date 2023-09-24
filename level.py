@@ -9,6 +9,8 @@ class Level(object):
         self.player = player
         self.world_shift = 0
         self.background = None
+        self.level_boundaryL = 0
+        self.level_boundaryR = 800
             
     def update(self):
         self.platform_list.update()
@@ -18,12 +20,15 @@ class Level(object):
         self.platform_list.draw(screen)
 
     def shift_world(self, shift_x):
-        if self.level_boundaryL < self.world_shift < self.level_boundaryR:
+
+    # Ensure that the camera's horizontal movement is limited within the level boundaries
+        if self.level_boundaryL <= self.world_shift + shift_x <= self.level_boundaryR:
             self.world_shift += shift_x
             for platform in self.platform_list:
                 platform.rect.x += shift_x
-      
-        
+       
+        print("Updated world shift: " + str(self.world_shift))
+    
 #First Level Platforms and Crates
 
 class Level_01 (Level):
@@ -31,33 +36,42 @@ class Level_01 (Level):
     def __init__(self, player): 
         Level.__init__(self, player)
 
+        #Level Boundary
         self.level_boundaryL = 0
         self.level_bouundaryR = 1800
 
-        # level_platforms = [((SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2), SMALL_PLATFORM_SIZE, BROWN), ((500, 200), LARGE_PLATFORM_SIZE, GREEN_GRASS), ((1000, 600), THICK_PLATFORM_SIZE, BROWN)]
-        
-        level__TEST_platforms = [((960, 20), (0, 580), GREEN_GRASS), ((220, 20), (180, 500), BROWN) ]
+        #List of Platforms and Ground in the Level
+        new_paltform_list = [((0,SCREEN_HEIGHT-20), "ground"), ((180,500), "normal"),((300, 500), "thick")]
+        ground_list = [((0,SCREEN_HEIGHT-20), "ground", (SCREEN_WIDTH, 20))]
 
-        # for item in level_platforms: 
-        #     platform = Platform(item[0], item[2])
-        #     platform.rect.x = item[0][0]
-        #     platform.rect.y = item[0][1]
-        #     self.platform_list.add(platform)
+        #Generate Platforms
+        for item in new_paltform_list:
+            
+            if item[1] == "normal":
+                platform = NormalPlatform()
+                platform.rect.x = item[0][0]
+                platform.rect.y = item[0][1]
+                self.platform_list.add(platform)
+            elif item[1] == "thick":
+                platform = ThickPlatform()
+                platform.rect.x = item[0][0]
+                platform.rect.y = item[0][1]
+                self.platform_list.add(platform)
         
-        for item in level__TEST_platforms:
-            platform = Platform(item[0], item[2])
-            platform.rect.x = item[1][0]
-            platform.rect.y = item[1][1]
-            self.platform_list.add(platform)
+        #Generate Terrain
+        for item in ground_list: 
+            if item[1] == "ground":
+                platform = Ground(item[2])
+                platform.rect.x = item[0][0]
+                platform.rect.y = item[0][1]
+                self.platform_list.add(platform)
+
+        #Left Boundary
+        platform = Platform((5, SCREEN_HEIGHT))
+        platform.rect.x = 0
+        platform.rect.y = 0
+        self.platform_list.add(platform)
         
         #Add Enemy List
         #Add Background
         #Add crate list
-
-#TODO - Create Level 2
- 
-
-#TODO - Create Level 3
-#TODO - Create Level 4
-#TODO - Create Level 5
-
